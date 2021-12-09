@@ -76,20 +76,15 @@ with open('output.txt', 'w') as f:
 from PIL import Image
 import random
 colors = [(random.randint(40,200),random.randint(40,200),random.randint(40,200)) for i in range(k)]
-img = Image.new( 'RGB', (len(basins)*2,len(basins[0])*2), "black") # Create a new black image
+scale = 10
+img = Image.new( 'RGB', (len(basins)*scale,len(basins[0])*scale), "black") # Create a new black image
 pixels = img.load() # Create the pixel map
 for i in range(len(basins)):    # For every pixel:
     for j in range(len(basins[i])):
-        if(basins[i][j])==0:
-            pixels[i,j] = (0,0,0)
-            pixels[i+1,j] = (0,0,0)
-            pixels[i,j+1] = (0,0,0)
-            pixels[i+1,j+1] = (0,0,0)
-        else:    
-            pixels[i,j] = colors[basins[i][j]]
-            pixels[i+1,j] = colors[basins[i][j]]
-            pixels[i,j+1] = colors[basins[i][j]]
-            pixels[i+1,j+1] = colors[basins[i][j]]
-
-
+        for p in range(scale):
+            for q in range(scale):
+                if(basins[i][j])==0:
+                    pixels[i*scale+p,j*scale+q] =(0,0,0)
+                else:    
+                    pixels[i*scale+p,j*scale+q] = colors[basins[i][j]]
 img.show()
