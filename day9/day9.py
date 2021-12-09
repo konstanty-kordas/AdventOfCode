@@ -74,14 +74,22 @@ with open('output.txt', 'w') as f:
         f.write('\n')
 
 from PIL import Image
-
-img = Image.new( 'RGB', (len(basins),len(basins[0])), "black") # Create a new black image
+import random
+colors = [(random.randint(40,200),random.randint(40,200),random.randint(40,200)) for i in range(k)]
+img = Image.new( 'RGB', (len(basins)*2,len(basins[0])*2), "black") # Create a new black image
 pixels = img.load() # Create the pixel map
-for i in range(img.size[0]):    # For every pixel:
-    for j in range(img.size[1]):
+for i in range(len(basins)):    # For every pixel:
+    for j in range(len(basins[i])):
         if(basins[i][j])==0:
             pixels[i,j] = (0,0,0)
+            pixels[i+1,j] = (0,0,0)
+            pixels[i,j+1] = (0,0,0)
+            pixels[i+1,j+1] = (0,0,0)
         else:    
-            pixels[i,j] = (basins[i][j],100,100)#(i, j, 100) # Set the colour accordingly
+            pixels[i,j] = colors[basins[i][j]]
+            pixels[i+1,j] = colors[basins[i][j]]
+            pixels[i,j+1] = colors[basins[i][j]]
+            pixels[i+1,j+1] = colors[basins[i][j]]
+
 
 img.show()
