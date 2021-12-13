@@ -1,3 +1,7 @@
+from PIL import Image
+import random
+import numpy as np
+
 def checkDanger(T,Pi,Pj):
     N=[]
     if Pi != 0:
@@ -67,14 +71,27 @@ basinSizes.pop(0)
 basinSizes.sort()   
 print(basinSizes[-1]*basinSizes[-2]*basinSizes[-3])
 
+heatmap = np.array(heatmap)
+heatmap = np.transpose(heatmap)
+
+scale = 10
+colors = [(255-i*25,255-i*25,255-i*25) for i in range(10)]
+img = Image.new( 'RGB', (len(heatmap)*scale,len(heatmap[0])*scale), "black") # Create a new black image
+pixels = img.load() # Create the pixel map
+for i in range(len(heatmap)):    # For every pixel:
+    for j in range(len(heatmap[i])):
+        for p in range(scale):
+            for q in range(scale):
+                pixels[i*scale+p,j*scale+q] = colors[heatmap[i][j]]
+img.show()
+
 with open('output.txt', 'w') as f:
     for l in basins:
         for p in l:
             f.write(str(p)+" ")
         f.write('\n')
-
-from PIL import Image
-import random
+basins = np.array(basins)
+basins = np.transpose(basins)
 colors = [(random.randint(40,200),random.randint(40,200),random.randint(40,200)) for i in range(k)]
 scale = 10
 img = Image.new( 'RGB', (len(basins)*scale,len(basins[0])*scale), "black") # Create a new black image

@@ -4,7 +4,7 @@ with open('day6.txt') as file:
 mod = [0 for j in range(9)]
 for fish in T:
     mod[fish%7]+=1
-for day in range(256):
+for day in range(2**8):
     current = mod[0]
     for i in range(1,len(mod)):
         mod[i-1] = mod[i]
